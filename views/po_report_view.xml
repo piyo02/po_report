@@ -38,7 +38,14 @@
         <menuitem id="menu_purchase_report_wizard"
                   name="Purchase Report"
                   action="action_purchase_report_wizard"
-                  parent="account.menu_finance_legal_statement"
+                  parent="purchase.purchase_report" 
                   sequence="1"/>
+
+        <menuitem id="purchase_report_action" 
+                name="Reports"
+                parent="purchase.purchase_report" 
+                sequence="99"
+                groups="purchase.group_purchase_manager" 
+                action="purchase.action_purchase_order_report_all"/>
     </data>
 </odoo>
