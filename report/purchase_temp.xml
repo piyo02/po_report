@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="purchase_report_temp">
+        <t t-call="report.external_layout">
+            <div class="page">
+                <div class="oe_structure"/>
+                    <div class="row">
+                    <center>
+                        <b>
+                            <h4>Laporan Pembelian</h4>
+                        </b>
+                    </center>
+                    <center>
+                        <b>
+                            <span t-esc="start_date"/>
+                            To
+                            <span t-esc="end_date"/>
+                        </b>
+                    </center>
+                </div>
+                <br/>
+                <t t-set="total_qty" t-value="0"/>
+                <t t-set="total_amount" t-value="0"/>
+
+                <t t-foreach="data" t-as="purchase">
+                    <table class="table table-condensed table-striped">
+                        <thead >
+                            <tr>
+                                <th>No Transaksi</th>
+                                <th>Tanggal</th>
+                                <th>Lokasi</th>
+                                <th colspan="4">Nama Supplier</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span t-esc="purchase[0]"/>
+                                </td>
+                                <td>
+                                    <span t-esc="purchase[1]"/>
+                                </td>
+                                <td>
+                                    <span t-esc="purchase[2]"/>
+                                </td>
+                                <td colspan="4">
+                                    <span t-esc="purchase[3]"/>
+                                </td>
+                            </tr>
+                            <tr><td colspan="5"></td></tr>
+                            <tr>
+                                <td><b>Kd. Produk</b></td>
+                                <td><b>Nama Produk</b></td>
+                                <td class="text-right"><b>Jumlah</b></td>
+                                <td><b>Satuan</b></td>
+                                <td class="text-right"><b>Harga</b></td>
+                                <td class="text-right"><b>Pajak</b></td>
+                                <td class="text-right"><b>Subtotal</b></td>
+                            </tr>
+                            <t t-foreach="purchase[5]" t-as="purchase_detail">
+                                <tr>
+                                    <td>
+                                        <span t-esc="purchase_detail[0]"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="purchase_detail[1]"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="purchase_detail[2]"/>
+                                        <t t-set="total_qty" t-value="total_qty + purchase_detail[2]"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="purchase_detail[3]"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="'{:,}'.format(purchase_detail[4])"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="'{:,}'.format(purchase_detail[5])"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="'{:,}'.format(purchase_detail[6])"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr>
+                                <td class="text-right" colspan="3">
+                                    <span t-esc="total_qty"/>
+                                </td>
+                                <td class="text-right" colspan="3">
+                                    <b>Total</b>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="'{:,}'.format(purchase[4])"/>
+                                    <t t-set="total_amount" t-value="total_amount + purchase[4]"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+                <div class="row">
+                    <div class="col-xs-4 pull-right">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td><strong>Total Pembelian</strong></td>
+                                <td class="text-right">
+                                    <span t-esc="'{:,}'.format(total_amount)"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
